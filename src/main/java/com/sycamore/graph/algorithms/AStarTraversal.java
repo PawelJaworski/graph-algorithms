@@ -1,6 +1,6 @@
 package com.sycamore.graph.algorithms;
 
-import com.sycamore.graph.structure.Edge;
+import com.sycamore.graph.structure.Graph;
 
 import java.util.*;
 
@@ -39,34 +39,15 @@ public class AStarTraversal {
     private static double heuristic(String a, String b) {
         return 0;
     }
-}
 
-class Graph {
-    private final Map<String, Set<Edge>> connections = new HashMap<>();
-
-    void addEdge(String from, String to, double weight) {
-        if (!connections.containsKey(from)) {
-            connections.put(from, new HashSet<>());
+    private record Path(List<String> nodes, double cost) {
+        Path add(String node, double newCost) {
+            var newNodes = new ArrayList<>(nodes);
+            newNodes.add(node);
+            return new Path(newNodes, newCost);
         }
-        if (!connections.containsKey(to)) {
-            connections.put(to, new HashSet<>());
+        String lastNode() {
+            return nodes.getLast();
         }
-        connections.get(from).add(new Edge(from, to, weight));
-        connections.get(to).add(new Edge(to, from, weight));
-    }
-
-    Set<Edge> neighboursOf(String node) {
-        return connections.getOrDefault(node, Set.of());
-    }
-}
-
-record Path(List<String> nodes, double cost) {
-    Path add(String node, double newCost) {
-        var newNodes = new ArrayList<>(nodes);
-        newNodes.add(node);
-        return new Path(newNodes, newCost);
-    }
-    String lastNode() {
-        return nodes.getLast();
     }
 }

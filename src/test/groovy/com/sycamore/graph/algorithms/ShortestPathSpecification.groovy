@@ -1,5 +1,6 @@
 package com.sycamore.graph.algorithms
 
+import com.sycamore.graph.structure.Graph
 import spock.lang.Specification
 
 class ShortestPathSpecification extends Specification implements TestDataAbility {
