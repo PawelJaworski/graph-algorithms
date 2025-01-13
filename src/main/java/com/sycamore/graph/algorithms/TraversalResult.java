@@ -1,4 +1,4 @@
-package com.sycamore.graphalgorithms;
+package com.sycamore.graph.algorithms;
 
 import lombok.Builder;
 

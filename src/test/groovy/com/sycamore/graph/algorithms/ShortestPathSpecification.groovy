@@ -1,4 +1,4 @@
-package com.sycamore.graphalgorithms
+package com.sycamore.graph.algorithms
 
 import spock.lang.Specification
 
@@ -17,7 +17,7 @@ class ShortestPathSpecification extends Specification implements TestDataAbility
         def aStarTraversal = new AStarTraversal()
 
         when:
-        def result = aStarTraversal.traverse(graph, new Node(WARSAW), new Node(PARIS), 100)
+        def result = aStarTraversal.traverse(graph, WARSAW, PARIS, 100)
 
         println("$result")
         then:
