@@ -1,21 +1,14 @@
-package com.sycamore.graph.algorithms;
+package com.sycamore.graph.traversal;
 
 import com.sycamore.graph.structure.Edge;
 
 import java.util.*;
 import java.util.stream.IntStream;
 
-record Path(List<String> nodes, double cost) implements Comparable<Path> {
-    @Override
-    public int compareTo(Path other) {
-        return Double.compare(this.cost, other.cost);
-    }
-}
-
 public class EppsteinKShortestPaths {
-    private final Map<String, List<Edge>> graph;
+    private final Map<String, Set<Edge>> graph;
 
-    public EppsteinKShortestPaths(Map<String, List<Edge>> graph) {
+    public EppsteinKShortestPaths(Map<String, Set<Edge>> graph) {
         this.graph = graph;
     }
 
@@ -28,7 +21,9 @@ public class EppsteinKShortestPaths {
         while (!pq.isEmpty()) {
             Path path = pq.poll();
             String node = path.nodes().getFirst();
-            if (dist.containsKey(node)) continue; // Skip if already visited
+            if (dist.containsKey(node)) {
+                continue; // Skip if already visited
+            }
             dist.put(node, path.cost());
 
             for (var entry : graph.entrySet()) {
@@ -59,7 +54,10 @@ public class EppsteinKShortestPaths {
                 continue;
             }
 
-            for (Edge edge : graph.getOrDefault(lastNode, Collections.emptyList())) {
+            for (Edge edge : graph.getOrDefault(lastNode, Collections.emptySet())) {
+                if (currentPath.nodes().contains(edge.target())) {
+                    continue;
+                }
                 double reducedCost = edge.weight() + shortestDistances.getOrDefault(edge.target(), Double.MAX_VALUE) - shortestDistances.getOrDefault(lastNode, 0.0);
                 List<String> newNodes = new ArrayList<>(currentPath.nodes());
                 newNodes.add(edge.target());
@@ -74,19 +72,19 @@ public class EppsteinKShortestPaths {
         var cost = IntStream.range(0, nodes.size() - 1)
                 .mapToDouble(idx -> graph.get(nodes.get(idx)).stream()
                         .filter(it -> it.target().equals(nodes.get(idx + 1)))
-                        .mapToDouble(it -> it.weight())
+                        .mapToDouble(Edge::weight)
                         .findFirst().orElseThrow())
                 .reduce(0.0, Double::sum);
         return new Path(nodes, cost);
     }
 
     public static void main(String[] args) {
-        Map<String, List<Edge>> graph = new HashMap<>();
-        graph.put("Warsaw", List.of(new Edge("Berlin", 573.0), new Edge("Prague", 680.0)));
-        graph.put("Berlin", List.of(new Edge("Paris", 1050.0), new Edge("Amsterdam", 650.0)));
-        graph.put("Prague", List.of(new Edge("Budapest", 530.0)));
-        graph.put("Budapest", List.of(new Edge("Brno", 325.0)));
-        graph.put("Amsterdam", List.of(new Edge("Paris", 500.0)));
+        Map<String, Set<Edge>> graph = new HashMap<>();
+        graph.put("Warsaw", Set.of(new Edge("Berlin", 573.0), new Edge("Prague", 680.0)));
+        graph.put("Berlin", Set.of(new Edge("Paris", 1050.0), new Edge("Amsterdam", 650.0)));
+        graph.put("Prague", Set.of(new Edge("Budapest", 530.0)));
+        graph.put("Budapest", Set.of(new Edge("Brno", 325.0)));
+        graph.put("Amsterdam", Set.of(new Edge("Paris", 500.0)));
 
         EppsteinKShortestPaths solver = new EppsteinKShortestPaths(graph);
         List<Path> paths = solver.findKShortestPaths("Warsaw", "Paris", 3);

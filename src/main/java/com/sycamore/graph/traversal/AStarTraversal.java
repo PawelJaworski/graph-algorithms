@@ -1,21 +1,20 @@
-package com.sycamore.graph.algorithms;
+package com.sycamore.graph.traversal;
 
 import com.sycamore.graph.structure.Graph;
 
 import java.util.*;
 
 public class AStarTraversal {
-    public TraversalResult traverse(Graph graph, String start, String end, int n) {
+    public Optional<Path> traverse(Graph graph, String start, String end) {
         PriorityQueue<Path> queue = new PriorityQueue<>(Comparator.comparingDouble(Path::cost));
         queue.add(new Path(List.of(start), 0d));
 
-        List<Path> paths = new ArrayList<>();
-        while (!queue.isEmpty() && paths.size() < n) {
+        while (!queue.isEmpty()) {
             Path currentPath = queue.poll();
             String currentNode = currentPath.lastNode();
 
             if (currentNode.equals(end)) {
-                paths.add(currentPath);
+                return Optional.of(currentPath);
             }
 
             graph.neighboursOf(currentNode)
@@ -29,11 +28,7 @@ public class AStarTraversal {
             });
         }
 
-        return TraversalResult.builder()
-                .paths(paths.stream()
-                        .map(Path::nodes)
-                        .toList())
-                .build();
+        return Optional.empty();
     }
 
     private static double heuristic(String a, String b) {

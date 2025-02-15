@@ -1,4 +1,4 @@
-package com.sycamore.graph.algorithms;
+package com.sycamore.graph.traversal;
 
 public interface TestDataAbility {
     String BERLIN = "Berlin";
