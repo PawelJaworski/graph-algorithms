@@ -15,8 +15,8 @@ public class Graph {
         if (!connections.containsKey(to)) {
             connections.put(to, new HashSet<>());
         }
-        connections.get(from).add(new Edge(from, to, weight));
-        connections.get(to).add(new Edge(to, from, weight));
+        connections.get(from).add(new Edge(to, weight));
+        connections.get(to).add(new Edge(from, weight));
     }
 
     public Set<Edge> neighboursOf(String node) {

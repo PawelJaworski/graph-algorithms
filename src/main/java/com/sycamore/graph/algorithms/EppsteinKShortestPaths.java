@@ -1,9 +1,10 @@
 package com.sycamore.graph.algorithms;
 
+import com.sycamore.graph.structure.Edge;
+
 import java.util.*;
 import java.util.stream.IntStream;
 
-record Edge(String target, double weight) {}
 record Path(List<String> nodes, double cost) implements Comparable<Path> {
     @Override
     public int compareTo(Path other) {

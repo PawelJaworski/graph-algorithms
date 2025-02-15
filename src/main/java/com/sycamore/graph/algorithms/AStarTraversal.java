@@ -20,10 +20,10 @@ public class AStarTraversal {
 
             graph.neighboursOf(currentNode)
                     .stream()
-                    .filter(it -> !currentPath.nodes().contains(it.getEnd()))
+                    .filter(it -> !currentPath.nodes().contains(it.target()))
                     .forEach(neighbor -> {
-                var nextNode = neighbor.getEnd();
-                double newCost = currentPath.cost() + neighbor.getCost();
+                var nextNode = neighbor.target();
+                double newCost = currentPath.cost() + neighbor.weight();
                 Path newPath = currentPath.add(nextNode, newCost + heuristic(nextNode, end));
                 queue.add(newPath);
             });
