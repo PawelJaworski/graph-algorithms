@@ -11,7 +11,8 @@ public class AStarTraversal {
 
         while (!queue.isEmpty()) {
             Path currentPath = queue.poll();
-            String currentNode = currentPath.lastNode();
+            String currentNode = currentPath.nodes()
+                    .getLast();
 
             if (currentNode.equals(end)) {
                 return Optional.of(currentPath);
@@ -33,16 +34,5 @@ public class AStarTraversal {
 
     private static double heuristic(String a, String b) {
         return 0;
-    }
-
-    private record Path(List<String> nodes, double cost) {
-        Path add(String node, double newCost) {
-            var newNodes = new ArrayList<>(nodes);
-            newNodes.add(node);
-            return new Path(newNodes, newCost);
-        }
-        String lastNode() {
-            return nodes.getLast();
-        }
     }
 }

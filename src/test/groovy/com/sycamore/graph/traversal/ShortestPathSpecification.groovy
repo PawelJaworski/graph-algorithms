@@ -7,30 +7,38 @@ import spock.lang.Specification
 class ShortestPathSpecification extends Specification implements TestDataAbility {
     Graph graph = new EuropeanCitiesGraphProvider().graph
 
-    def "expect true"() {
+    def "find shortest path using A-Star algorithm"() {
         given:
         def aStarTraversal = new AStarTraversal()
 
         when:
-        def result = aStarTraversal.traverse(graph, WARSAW, PARIS)
+        def fastestPath = aStarTraversal.traverse(graph, "Warsaw", "Barcelona")
+                .orElseThrow()
 
-        println("$result")
         then:
-        true
+        fastestPath.nodes() == ["Warsaw", "Wroclaw", "Prague", "Munich", "Bern", "Marseille", "Barcelona"]
+        fastestPath.cost() == 2495.6
     }
 
-    def "find k-shortest paths with Eppstein's algorithm"() {
+    def "find k-shortest paths using Eppstein's algorithm"() {
         given:
-        def eppstein = new EppsteinKShortestPaths()
+        def eppsteinTraversal = new EppsteinKShortestPaths()
 
         when:
-        def warsawToBarcelona = eppstein.findKShortestPaths("Warsaw", "Barcelona", graph, 3)
-        def barcelonaToWarsaw = eppstein.findKShortestPaths("Barcelona","Warsaw", graph, 3)
+        def fastestPaths = eppsteinTraversal.findKShortestPaths("Warsaw", "Barcelona", graph, 3)
 
-        warsawToBarcelona.forEach { println(it) }
-        println()
-        barcelonaToWarsaw.forEach { println(it) }
         then:
-        true
+        with(fastestPaths[0]) {
+            nodes() == ["Warsaw", "Wroclaw", "Prague", "Munich", "Bern", "Marseille", "Barcelona"]
+            cost() == 2495.6
+        }
+        with(fastestPaths[1]) {
+            nodes() == ["Warsaw", "Wroclaw", "Munich", "Bern", "Marseille", "Barcelona"]
+            cost() == 2509.2
+        }
+        with(fastestPaths[2]) {
+            nodes() == ["Warsaw", "Wroclaw", "Prague", "Bern", "Marseille", "Barcelona"]
+            cost() == 2539.6
+        }
     }
 }
