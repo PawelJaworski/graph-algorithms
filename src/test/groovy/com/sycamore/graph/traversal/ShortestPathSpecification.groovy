@@ -5,6 +5,7 @@ import com.sycamore.graph.structure.Graph
 import spock.lang.Specification
 
 class ShortestPathSpecification extends Specification implements TestDataAbility {
+    static final THREE_SHORTEST_PATHS = 3
     Graph graph = new EuropeanCitiesGraphProvider().graph
 
     def "find shortest path using A-Star algorithm"() {
@@ -25,7 +26,7 @@ class ShortestPathSpecification extends Specification implements TestDataAbility
         def eppsteinTraversal = new EppsteinKShortestPaths()
 
         when:
-        def fastestPaths = eppsteinTraversal.findKShortestPaths("Warsaw", "Barcelona", graph, 3)
+        def fastestPaths = eppsteinTraversal.findKShortestPaths("Warsaw", "Barcelona", graph, THREE_SHORTEST_PATHS)
 
         then:
         with(fastestPaths[0]) {
