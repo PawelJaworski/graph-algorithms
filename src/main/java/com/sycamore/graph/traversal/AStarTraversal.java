@@ -5,8 +5,9 @@ import com.sycamore.graph.structure.Graph;
 import java.util.*;
 
 public class AStarTraversal {
-    public Optional<Path> traverse(Graph graph, String start, String end) {
-        PriorityQueue<Path> queue = new PriorityQueue<>(Comparator.comparingDouble(Path::cost));
+    public Optional<Path> traverse(String start, String end, Graph graph, Heuristic heuristic) {
+        PriorityQueue<Path> queue = new PriorityQueue<>(Comparator.comparingDouble(it ->
+                it.cost() + heuristic.calculate(it.nodes().getLast(), end)));
         queue.add(new Path(List.of(start), 0d));
 
         while (!queue.isEmpty()) {
@@ -24,7 +25,7 @@ public class AStarTraversal {
                     .forEach(neighbor -> {
                 var nextNode = neighbor.target();
                 double newCost = currentPath.cost() + neighbor.weight();
-                Path newPath = currentPath.add(nextNode, newCost + heuristic(nextNode, end));
+                Path newPath = currentPath.add(nextNode, newCost);
                 queue.add(newPath);
             });
         }
@@ -32,7 +33,15 @@ public class AStarTraversal {
         return Optional.empty();
     }
 
-    private static double heuristic(String a, String b) {
-        return 0;
+    public interface Heuristic {
+        double calculate(String node, String target);
+    }
+
+    public static class Dijkstra implements Heuristic {
+
+        @Override
+        public double calculate(String node, String target) {
+            return 0;
+        }
     }
 }

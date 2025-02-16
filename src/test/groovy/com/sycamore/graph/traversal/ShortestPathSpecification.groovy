@@ -13,7 +13,7 @@ class ShortestPathSpecification extends Specification implements TestDataAbility
         def aStarTraversal = new AStarTraversal()
 
         when:
-        def fastestPath = aStarTraversal.traverse(graph, "Warsaw", "Barcelona")
+        def fastestPath = aStarTraversal.traverse("Warsaw", "Barcelona", graph, new AStarTraversal.Dijkstra())
                 .orElseThrow()
 
         then:
