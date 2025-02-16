@@ -5,15 +5,7 @@ import com.sycamore.graph.structure.Graph
 import spock.lang.Specification
 
 class ShortestPathSpecification extends Specification implements TestDataAbility {
-    def graph = new Graph()
-    def graphProvider = new EuropeanCitiesGraphProvider()
-
-    def setup() {
-        graph.addEdge(BERLIN, PARIS, 987)
-        graph.addEdge(BERLIN, PRAGUE, 318)
-        graph.addEdge(BERLIN, WARSAW, 552)
-        graph.addEdge(WARSAW, PRAGUE, 579)
-    }
+    Graph graph = new EuropeanCitiesGraphProvider().graph
 
     def "expect true"() {
         given:
@@ -29,12 +21,15 @@ class ShortestPathSpecification extends Specification implements TestDataAbility
 
     def "find k-shortest paths with Eppstein's algorithm"() {
         given:
-        def eppstein = new EppsteinKShortestPaths(graphProvider.graph)
+        def eppstein = new EppsteinKShortestPaths()
 
         when:
-        def shortestPaths = eppstein.findKShortestPaths("Warsaw", "Barcelona", 3)
+        def warsawToBarcelona = eppstein.findKShortestPaths("Warsaw", "Barcelona", graph, 3)
+        def barcelonaToWarsaw = eppstein.findKShortestPaths("Barcelona","Warsaw", graph, 3)
 
-        shortestPaths.forEach { println(it) }
+        warsawToBarcelona.forEach { println(it) }
+        println()
+        barcelonaToWarsaw.forEach { println(it) }
         then:
         true
     }

@@ -4,5 +4,5 @@ public interface TestDataAbility {
     String BERLIN = "Berlin";
     String PARIS = "Paris";
     String PRAGUE = "Prague";
-    String WARSAW = "Warszawa";
+    String WARSAW = "Warsaw";
 }
