@@ -118,7 +118,7 @@
 						<configuration>
 							<systemPropertyVariables>
 								<com.athaydes.spockframework.report.showCodeBlocks>true</com.athaydes.spockframework.report.showCodeBlocks>
-								<com.athaydes.spockframework.report.outputDir>public/spock-reports</com.athaydes.spockframework.report.outputDir>
+								<com.athaydes.spockframework.report.outputDir>docs</com.athaydes.spockframework.report.outputDir>
 								<com.athaydes.spockframework.report.template.TemplateReportCreator.reportFileExtension>md</com.athaydes.spockframework.report.template.TemplateReportCreator.reportFileExtension>
 								<com.athaydes.spockframework.report.template.TemplateReportCreator.summaryFileName>summary.md</com.athaydes.spockframework.report.template.TemplateReportCreator.summaryFileName>
 								<com.athaydes.spockframework.report.internal.HtmlReportCreator.inlineCss>false</com.athaydes.spockframework.report.internal.HtmlReportCreator.inlineCss>
