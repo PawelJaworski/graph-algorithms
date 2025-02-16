@@ -11,7 +11,7 @@
 </div>
 <div class='summary-report'>
 <h3>Summary:</h3>
-<div class='date-test-ran'>Created on Sun Feb 16 11:12:16 CET 2025 by paweljaworski</div>
+<div class='date-test-ran'>Created on Sun Feb 16 11:23:24 CET 2025 by paweljaworski</div>
 <table class='summary-table'>
 <thead>
 <tr>
@@ -32,7 +32,7 @@
 <td>0</td>
 <td>0</td>
 <td>100.0%</td>
-<td>0.058 seconds</td>
+<td>0.051 seconds</td>
 </tr>
 </tbody>
 </table>
@@ -58,7 +58,7 @@
 <span>find shortest path using A-Star algorithm</span>
 <span class='return-toc'>
 <a href='#toc'>Return</a>
-<div class='ex-time'>(0.011 seconds)</div>
+<div class='ex-time'>(0.012 seconds)</div>
 </span>
 </div>
 </td>
@@ -76,7 +76,7 @@
 <div class='block-kind'>When:</div>
 </td>
 <td>
-<pre class='block-source'>def fastestPath = aStarTraversal.traverse(graph, "Warsaw", "Barcelona")
+<pre class='block-source'>def fastestPath = aStarTraversal.traverse("Warsaw", "Barcelona", graph, new AStarTraversal.Dijkstra())
         .orElseThrow()</pre>
 </td>
 </tr>
@@ -95,7 +95,7 @@ fastestPath.cost() == 2495.6</pre>
 <span>find k-shortest paths using Eppstein's algorithm</span>
 <span class='return-toc'>
 <a href='#toc'>Return</a>
-<div class='ex-time'>(0.019 seconds)</div>
+<div class='ex-time'>(0.017 seconds)</div>
 </span>
 </div>
 </td>
